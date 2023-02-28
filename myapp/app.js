@@ -4,8 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/index.routes');
+var usersRouter = require('./routes/users.routes');
+var loginRouter = require('./routes/login.routes');
+const cors = require("cors");
+const { OAuth2Client } = require("google-auth-library");
+const jwt = require("jsonwebtoken");
 
 var app = express();
 
@@ -21,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.use('/login', loginRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -37,5 +41,34 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+  })
+);
+app.use(express.json());
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+
+require("dotenv").config();
+const db = require("../myapp/models");
+console.log(process.env.dbUser);
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
+  });
+
+app.listen("5152", () => console.log("Server running on port 5152"));
 
 module.exports = app;
