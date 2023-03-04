@@ -71,7 +71,8 @@ db.mongoose
     process.exit();
   });
 
-app.listen("5152", () => console.log("Server running on port 5152"));
+const PORT = process.env.PORT || 5152;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 module.exports = app;
