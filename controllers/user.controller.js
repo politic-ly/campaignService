@@ -15,6 +15,7 @@ exports.create = (req, res) => {
       email: req.body.email,
       location: req.body.location,
       profileImage: req.body.profileImage,
+      typeOfAccount: req.body.typeOfAccount,
       notfications: req.body.notfications,
       favorites: req.body.favorites,
       initiativesCreated: req.body.initiativesCreated,

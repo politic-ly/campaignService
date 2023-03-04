@@ -7,6 +7,7 @@ module.exports = mongoose => {
           email: String,
           location: String,
           profileImage: String,
+          typeOfAccount: String,
           notfications: [String],
           favorites: [String], //Initiative IDs
           initiativesCreated: [String], //Initiative IDs
