@@ -4,4 +4,5 @@ const user = require("../controllers/user.controller.js");
 /* GET users listing. */
 router.post('/', user.create);
 
+
 module.exports = router;

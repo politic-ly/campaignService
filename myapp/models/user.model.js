@@ -3,9 +3,15 @@ module.exports = mongoose => {
       "user",
       mongoose.Schema(
         {
-          firstName: String,
-          lastName: String,
-          email: String
+          fullName: String,
+          email: String,
+          location: String,
+          profileImage: String,
+          notfications: [String],
+          favorites: [String], //Initiative IDs
+          initiativesCreated: [String], //Initiative IDs
+          eventsVolunteer: [String], //Event IDs
+          eventsCreated: [String], //Event IDs
         }
       )
     );

@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index.routes');
 var usersRouter = require('./routes/users.routes');
 var loginRouter = require('./routes/login.routes');
-var campaignRouter = require('./routes/campaign.routes');
+var initiativesRouter = require('./routes/initiatives.routes');
 const cors = require("cors");
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
-app.use('/campaign', campaignRouter);
+app.use('/initiatives', initiativesRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
