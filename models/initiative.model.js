@@ -4,6 +4,7 @@ module.exports = mongoose => {
       mongoose.Schema(
         {
           name: String,
+          title: String,
           images: [String],
           fullDescription: String,
           shortDescription: String,

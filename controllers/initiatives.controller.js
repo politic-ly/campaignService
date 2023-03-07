@@ -12,6 +12,7 @@ exports.create = (req, res) => {
     // Create a Tutorial
     const initiative = new Initiative({
       name: req.body.name,
+      title: req.body.title,
       images: req.body.images,
       fullDescription: req.body.fullDescription,
       shortDescription: req.body.shortDescription,
