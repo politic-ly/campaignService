@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js",
+    "start": "set DEBUG=express:* & set DEBUG_COLORS=1 & node app.js",
     "dev": "nodemon app.js"
   },
   "dependencies": {
