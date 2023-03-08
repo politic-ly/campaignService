@@ -7,7 +7,6 @@ This is the Campagin Service repository, a backend service for the Politcly app.
 Local Setup
 
 To install dependencies:
-$ cd myapp
 $ npm install
 
 To run the app on Mac:
