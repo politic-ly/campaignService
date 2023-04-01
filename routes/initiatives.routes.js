@@ -17,6 +17,7 @@ const upload = multer({ storage: storage });
 /* GET users listing. */
 router.post("/", upload.array("images"), initiatives.create);
 router.get("/", initiatives.getAll);
+router.get("/user/:id", initiatives.getByUser);
 router.get("/:id", initiatives.getById);
 router.put("/:id", initiatives.update);
 

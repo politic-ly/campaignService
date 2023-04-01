@@ -78,7 +78,14 @@ exports.create = async (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-  Initiative.find({})
+  const count = req.query.count;
+  var query;
+  if (count) {
+    query = Initiative.find().limit(parseInt(count));
+  } else {
+    query = Initiative.find();
+  }
+  query
     .then((data) => {
       res.send(data);
     })
@@ -87,6 +94,28 @@ exports.getAll = (req, res) => {
         message:
           err.message || "Some error occurred while retrieving tutorials.",
       });
+    });
+};
+
+exports.getByUser = (req, res) => {
+  const id = req.params.id;
+  const count = req.query.count;
+  var query;
+  if (count) {
+    query = Initiative.find({ admins: id }).limit(parseInt(count));
+  } else {
+    query = Initiative.find({ admins: id });
+  }
+  query
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: "Not found Initiative with id " + id });
+      } else res.send(data);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Initiative with id=" + id });
     });
 };
 
