@@ -16,6 +16,8 @@ app.use(express.static("public"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+const fs = require("fs");
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -23,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 require("dotenv").config();
 const db = require("./models");
-console.log(process.env.dbUser);
+
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
