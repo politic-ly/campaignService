@@ -248,3 +248,19 @@ exports.getEventsByInitiative = (req, res) => {
         .send({ message: "Error retrieving Tutorial with id=" + id });
     });
 };
+
+exports.getInitiativesByIds = (req, res) => {
+  const ids = req.body.ids;
+  console.log(req.body);
+  Initiative.find({ _id: { $in: ids } })
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Initiative with id " + id });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Initiative with id=" + id });
+    });
+};
