@@ -20,5 +20,9 @@ router.get("/", initiatives.getAll);
 router.get("/user/:id", initiatives.getByUser);
 router.get("/:id", initiatives.getById);
 router.put("/:id", initiatives.update);
+router.post("/:id/event/new", initiatives.createEvent);
+router.post("/:id/event/:eventId", initiatives.updateEvent);
+router.get("/:id/event/:eventId", initiatives.getEventById);
+router.get("/:id/event", initiatives.getEventsByInitiative);
 
 module.exports = router;

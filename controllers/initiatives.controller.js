@@ -157,3 +157,94 @@ exports.update = (req, res) => {
       });
     });
 };
+
+exports.createEvent = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!",
+    });
+  }
+  const id = req.params.id;
+  Initiative.findByIdAndUpdate(
+    id,
+    { $push: { events: req.body } },
+    { useFindAndModify: false }
+  )
+
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update Initiative with id=${id}. Maybe Initiative was not found!`,
+        });
+      } else res.send({ message: "Initiative was updated successfully." });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Initiative with id=" + id,
+      });
+    });
+};
+
+exports.updateEvent = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!",
+    });
+  }
+  const id = req.params.id;
+  const eventId = req.params.eventId;
+  Initiative.findOneAndUpdate(
+    { _id: id, "events._id": eventId },
+    { $set: { "events.$": req.body } },
+    { useFindAndModify: false }
+  )
+
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update Initiative with id=${id}. Maybe Initiative was not found!`,
+        });
+      } else res.send({ message: "Initiative was updated successfully." });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Initiative with id=" + id,
+      });
+    });
+};
+
+exports.getEventById = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!",
+    });
+  }
+  const id = req.params.id;
+  const eventId = req.params.eventId;
+  Initiative.find({ _id: id, "events._id": eventId })
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Event with id " + eventId });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Event with id=" + eventId });
+    });
+};
+
+exports.getEventsByInitiative = (req, res) => {
+  const id = req.params.id;
+  Initiative.findById(id)
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Tutorial with id " + id });
+      else res.send(data.events);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Tutorial with id=" + id });
+    });
+};
