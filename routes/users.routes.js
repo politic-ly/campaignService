@@ -3,6 +3,7 @@ var router = express.Router();
 const user = require("../controllers/user.controller.js");
 /* GET users listing. */
 router.post("/:access_token", user.create);
+router.post("/:id", user.update);
 router.get("/", user.findAll);
 router.get("/:id", user.findOne);
 router.post("/:id/favorite/:initiativeId", user.addFavorite);

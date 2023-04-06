@@ -24,6 +24,16 @@ router.post("/:id/event/new", initiatives.createEvent);
 router.post("/:id/event/:eventId", initiatives.updateEvent);
 router.get("/:id/event/:eventId", initiatives.getEventById);
 router.get("/:id/event", initiatives.getEventsByInitiative);
+router.post("/:id/announcement/new", initiatives.createAnnouncement);
+// router.post(
+//   "/:id/annnouncement/:announcementId",
+//   initiatives.updateAnnouncement
+// );
+router.get(
+  "/:id/announcement/:announcementId",
+  initiatives.getAnnouncementById
+);
+router.get("/:id/announcements", initiatives.getAnnouncementsByInitiative);
 router.post("/list/ids", initiatives.getInitiativesByIds);
 
 module.exports = router;

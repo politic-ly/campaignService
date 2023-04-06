@@ -202,3 +202,21 @@ exports.removeFavorite = (req, res) => {
       });
     });
 };
+
+exports.updateUser = (req, res) => {
+  const id = req.params.id;
+  const user = req.body;
+  User.findByIdAndUpdate(id, user, { useFindAndModify: false })
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update User with id=${id}. Maybe User was not found!`,
+        });
+      } else res.send({ message: "User was updated successfully." });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating User with id=" + id,
+      });
+    });
+};

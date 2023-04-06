@@ -252,6 +252,12 @@ exports.getEventsByInitiative = (req, res) => {
 exports.getInitiativesByIds = (req, res) => {
   const ids = req.body.ids;
   console.log(req.body);
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Ids cannot be empty!",
+    });
+  }
+
   Initiative.find({ _id: { $in: ids } })
     .then((data) => {
       if (!data)
@@ -262,5 +268,69 @@ exports.getInitiativesByIds = (req, res) => {
       res
         .status(500)
         .send({ message: "Error retrieving Initiative with id=" + id });
+    });
+};
+
+exports.createAnnouncement = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!",
+    });
+  }
+  const id = req.params.id;
+  Initiative.findByIdAndUpdate(
+    id,
+    { $push: { announcements: req.body } },
+    { useFindAndModify: false }
+  )
+
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update Initiative with id=${id}. Maybe Initiative was not found!`,
+        });
+      } else res.send({ message: "Initiative was updated successfully." });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Initiative with id=" + id,
+      });
+    });
+};
+
+exports.getAnnouncementsByInitiative = (req, res) => {
+  const id = req.params.id;
+  Initiative.findById(id)
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Initiative with id " + id });
+      else res.send(data.announcements);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Tutorial with id=" + id });
+    });
+};
+
+exports.getAnnouncementById = (req, res) => {
+  const id = req.params.id;
+  const announcementId = req.params.announcementId;
+  Initiative.find({ _id: id, "announcements._id": announcementId })
+    .then((data) => {
+      if (!data)
+        res
+          .status(404)
+          .send({
+            message: "Not found Announcement with id " + announcementId,
+          });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({
+          message: "Error retrieving Announcement with id=" + announcementId,
+        });
     });
 };
